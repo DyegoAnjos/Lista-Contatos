@@ -16,11 +16,13 @@ struct cadastroContato contato[50];
 
 char continuar, nome[50], numero[50];
 int escolha=0, cont=-1;
+FILE *pont_teste;
 
 
 int main(){
 	int i=cont, retorno;
 	int contLista=cont;
+	char testestring[50];
 	setlocale(LC_ALL, "Portuguese");
 	do{
 		system("cls");
@@ -37,13 +39,10 @@ int main(){
 					}
 					
 					else{
-						printf("%d contatos cadastrados.\n", cont+1);
-						linha();
-						for(contLista=cont;contLista>=0;contLista--){
-							printf("Nome:%s", contato[contLista].nome);
-							printf("\nTelefone:%s", contato[contLista].numero);
-							linha();
-						}
+						pont_teste = fopen("Agenda.txt", "r");
+						while(fgets(testestring, 50, pont_teste) != NULL)
+							printf("%s", testestring);
+						fclose(pont_teste);
 					}
 					
 				system("pause");
@@ -93,6 +92,7 @@ int main(){
 					printf("::::::::::Cadastra Contato::::::::::");
 					printf("\nNome do contato:");
 					do{
+						pont_teste = fopen ("Agenda.txt", "a");
 						fflush(stdin);
 						gets(nome);
 					}while(tamanho(nome) == 0);
@@ -111,6 +111,7 @@ int main(){
 		
 					if (retorno != 0){
 						strcpy (contato[cont].nome, nome);
+						fprintf(pont_teste, "Nome: %s", contato[cont].nome);
 					}
 		
 					if (retorno != 0){
@@ -134,13 +135,18 @@ int main(){
 		
 					if (retorno != 0){
 						strcpy (contato[cont].numero, numero);
+						fprintf(pont_teste,"\nNúmero: %s", contato[cont].numero);
+						fprintf(pont_teste,"\n------------------------------------\n");
 					}
-					}	
-		
-		
+					}
+					
+					
 					printf("\nDeseja continuar? s/n");
 					continuar=toupper(getche());
-						if (continuar == 'N') break;
+						if (continuar == 'N'){
+							fclose(pont_teste);
+							break;
+						} 
 		system("cls");
 	}while(1);
 			break;}
@@ -160,8 +166,6 @@ int main(){
 					printf("Contato removido!\n");
 				system("pause");
 			break;}
-				
-				
 		}
 	}while(escolha != 0);
 	return(0);
