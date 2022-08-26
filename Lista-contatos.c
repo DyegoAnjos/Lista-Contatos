@@ -34,17 +34,16 @@ int main(){
 			case 1:{
 				system("cls");
 					printf("\n::::::::::Contatos::::::::::\n");
-					if (cont < 0){
-						printf("\nNenhum contato cadastrado\n");
+					pont_teste = fopen("Agenda.txt", "r");
+					if (pont_teste != NULL){
+						while(fgets(testestring, 50, pont_teste) != NULL)
+							printf("%s", testestring);	
 					}
 					
 					else{
-						pont_teste = fopen("Agenda.txt", "r");
-						while(fgets(testestring, 50, pont_teste) != NULL)
-							printf("%s", testestring);
-						fclose(pont_teste);
+						printf("\nNenhum contato cadastrado\n");
 					}
-					
+				fclose(pont_teste);
 				system("pause");
 			break;}
 			
